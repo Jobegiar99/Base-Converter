@@ -179,22 +179,28 @@ namespace Base_Converter
  
             else
             {
-                baseTenNumber = toBaseTenFromBaseTwoToHex(userValidString, selectedBaseFromComboBox);
-                if (selectedBaseToConvertTheNumberFromComboBox != 10)
+                if (selectedBaseToConvertTheNumberFromComboBox == "Floating Point")
                 {
-                    sTrNumberToBase = "";
-                    convertFromBaseTenToBaseTwoToHex(baseTenNumber, selectedBaseToConvertTheNumberFromComboBox);
-                    string sTrBase = "";
-                    for (int i = sTrNumberToBase.Length - 1; i > -1; i--)
-                        sTrBase += sTrNumberToBase[i];
-                    txt_Result.Text = sTrBase;
+                    
+                    txt_Result.Text= toFloatingPoint(userValidString);
                 }
                 else
                 {
-                    txt_Result.Text = baseTenNumber.ToString();
+                    baseTenNumber = toBaseTenFromBaseTwoToHex(userValidString, selectedBaseFromComboBox);
+                    if (selectedBaseToConvertTheNumberFromComboBox != 10)
+                    {
+                        sTrNumberToBase = "";
+                        convertFromBaseTenToBaseTwoToHex(baseTenNumber, selectedBaseToConvertTheNumberFromComboBox);
+                        string sTrBase = "";
+                        for (int i = sTrNumberToBase.Length - 1; i > -1; i--)
+                            sTrBase += sTrNumberToBase[i];
+                        txt_Result.Text = sTrBase;
+                    }
+                    else
+                    {
+                        txt_Result.Text = baseTenNumber.ToString();
+                    }
                 }
-                
-
             }
         }
 
@@ -283,14 +289,52 @@ namespace Base_Converter
                 exponentControl++;
             }
             exponentControl = 1;
-            for (int i= 0;i<fractionPart.Length ; i++)
+          /*  I'll fix this later.
+           *  for (int i= 0;i<fractionPart.Length ; i++)
             {
                 number += ((1/Math.Pow(baseNumber,exponentControl))*(Double.Parse(fractionPart[i].ToString()))) ;
                 exponentControl++;
-            }
+            }*/
             
             
             return number;
+        }
+
+        private string toFloatingPoint(string number)
+        {
+            sTrNumberToBase = "";
+            long exponent = 0;
+            string Mantisa = "";
+            string numberWithoutDot = "";
+            if (number.IndexOf('.') == -1) {
+                exponent = (byte)number.Length;
+                //uses sTrNumberToBase;;
+                convertFromBaseTenToBaseTwoToHex(Double.Parse(number), 2);
+            }
+            else
+            {
+                bool dotFound = false;
+                foreach (char c in number)
+                {
+                    if (c != '.') numberWithoutDot += c;
+                    else dotFound = true;
+                    if (!dotFound) exponent++;
+                    
+                }
+                convertFromBaseTenToBaseTwoToHex(Double.Parse(numberWithoutDot), 2);
+            }
+            Mantisa = sTrNumberToBase;
+            if (Mantisa.Length < 13)
+                for (int i = Mantisa.Length; i < 12; i++)
+                {
+                    Mantisa += '0';
+                }
+            sTrNumberToBase = "";
+            convertFromBaseTenToBaseTwoToHex((64 + exponent), 2);
+
+            return (((Int64.Parse(number) >= 0) ? '0' : '1') + sTrNumberToBase + Mantisa);
+            
+
         }
 
     }
