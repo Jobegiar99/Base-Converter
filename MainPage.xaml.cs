@@ -26,6 +26,7 @@ namespace Base_Converter
     {
         string sTrNumberToBase = "";
         double baseTenNumber = 0;
+        bool isNegative;
 
         public MainPage()
         {
@@ -87,6 +88,9 @@ namespace Base_Converter
             dynamic selectedBaseFromComboBox=0;
             dynamic selectedBaseToConvertTheNumberFromComboBox = 0;
             string userValidString = "";
+
+            isNegative = ((txt_NumberToConvert.Text[0] == '-') ? true : false);
+
             txt_NumberToConvert.Text.ToUpper();
 
             //The Following area contains the logic that will set the base of the number to convert and the base of the result.
@@ -126,13 +130,13 @@ namespace Base_Converter
                     switch (comboBox_BaseToConvertSelection.SelectedIndex)
                     {
                         case 15: //Floating Point
-                            selectedBaseToConvertTheNumberFromComboBox = "Floating Point";
+                            selectedBaseToConvertTheNumberFromComboBox = 'F';
                             break;
                         case 16: //BCD
-                            selectedBaseToConvertTheNumberFromComboBox = "BCD";
+                            selectedBaseToConvertTheNumberFromComboBox = 'B';
                             break;
                         case 17: //8 Bit
-                            selectedBaseToConvertTheNumberFromComboBox = "8 bit";
+                            selectedBaseToConvertTheNumberFromComboBox = '8';
                             break;
                     }
                 }
@@ -145,6 +149,8 @@ namespace Base_Converter
                 if ((c >= 48 && c <= 57)|| c=='.' || (c>=65 && c<=70))
                     userValidString += c;
             }
+
+
             foreach (char c in userValidString)
             {
                 if (c!='.')
@@ -179,27 +185,56 @@ namespace Base_Converter
  
             else
             {
-                if (selectedBaseToConvertTheNumberFromComboBox == "Floating Point")
+                switch (selectedBaseToConvertTheNumberFromComboBox)
                 {
-                    
-                    txt_Result.Text= toFloatingPoint(userValidString);
-                }
-                else
-                {
-                    baseTenNumber = toBaseTenFromBaseTwoToHex(userValidString, selectedBaseFromComboBox);
-                    if (selectedBaseToConvertTheNumberFromComboBox != 10)
-                    {
-                        sTrNumberToBase = "";
-                        convertFromBaseTenToBaseTwoToHex(baseTenNumber, selectedBaseToConvertTheNumberFromComboBox);
-                        string sTrBase = "";
-                        for (int i = sTrNumberToBase.Length - 1; i > -1; i--)
-                            sTrBase += sTrNumberToBase[i];
-                        txt_Result.Text = sTrBase;
-                    }
-                    else
-                    {
-                        txt_Result.Text = baseTenNumber.ToString();
-                    }
+                    case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 11: case 12: case 13:
+                    case 14: case 15: case 16:
+                        baseTenNumber = toBaseTenFromBaseTwoToHex(userValidString, selectedBaseFromComboBox);
+                        if (selectedBaseToConvertTheNumberFromComboBox != 10)
+                        {
+                            sTrNumberToBase = "";
+                            convertFromBaseTenToBaseTwoToHex(baseTenNumber, selectedBaseToConvertTheNumberFromComboBox);
+                            string sTrBase = ReverseString(sTrNumberToBase);
+                            txt_Result.Text = sTrBase;
+                        }
+                        else
+                        {
+                            txt_Result.Text = baseTenNumber.ToString();
+                        }
+                        break;
+
+
+
+
+                    case 'F':
+                            if (selectedBaseFromComboBox != 10)
+                            {
+                                string stringToParse = "";
+                                bool found = false;
+                                for (int i = 0; i < userValidString.Length && !found; i++)
+                                {
+                                    if (userValidString[i] == '.')
+                                        found = true;
+                                    if (!found)
+                                        stringToParse += userValidString[i];
+                                }
+
+
+
+                                txt_Result.Text = toFloatingPoint((toBaseTenFromBaseTwoToHex(stringToParse, selectedBaseFromComboBox)).ToString());
+                            }
+                            else
+                            {
+                                txt_Result.Text = toFloatingPoint(userValidString);
+                            }
+                        break;
+                    case 'B':
+                        txt_Result.Text = toBCD(userValidString);
+                        break;
+                    case '8':
+                        txt_Result.Text = to8Bit(userValidString);
+                        break;
+                        
                 }
             }
         }
@@ -323,7 +358,7 @@ namespace Base_Converter
                 }
                 convertFromBaseTenToBaseTwoToHex(Double.Parse(numberWithoutDot), 2);
             }
-            Mantisa = sTrNumberToBase;
+            Mantisa = ReverseString(sTrNumberToBase);
             if (Mantisa.Length < 13)
                 for (int i = Mantisa.Length; i < 12; i++)
                 {
@@ -331,10 +366,63 @@ namespace Base_Converter
                 }
             sTrNumberToBase = "";
             convertFromBaseTenToBaseTwoToHex((64 + exponent), 2);
-
-            return (((Int64.Parse(number) >= 0) ? '0' : '1') + sTrNumberToBase + Mantisa);
             
 
+            return (((isNegative) ? '1' : '0') + " " +ReverseString(sTrNumberToBase)+ " " + Mantisa);
+            
+
+        }
+
+        private string toBCD(string numberToConvert)
+        {
+            string newNumber = "";
+            string[] binaryNumbers = { "0000", "0001", "0010", "0011", "0100", "0101", "0110", "0111", "1000", "1001" };
+            foreach (char c in numberToConvert)
+            {
+                if (c != '.')
+                    newNumber += binaryNumbers[Byte.Parse(c.ToString())] + " ";
+                else
+                    newNumber += '.';
+            }
+            return newNumber;
+        }
+
+        private string to8Bit(string numberToConvert)
+        {
+            string newNumber = "";
+            int number = Int32.Parse(numberToConvert);
+            while (number > 0)
+            {
+                newNumber += (number % 2).ToString();
+                number -= (number % 2);
+                number /= 2;
+            }
+            if (newNumber.Length < 7)
+            {
+                while (newNumber.Length < 7)
+                {
+                    newNumber += '0';
+                }
+            }
+            newNumber += (isNegative) ? '1' : '0';
+            newNumber = ReverseString(newNumber);
+            return newNumber;
+        }
+
+        private string fromBCDToAnotherBase(string number) {
+            string newNumber = "";
+
+            
+
+            return newNumber;
+        }
+
+        private string ReverseString(string str)
+        {
+            string newString = "";
+            for (int i = str.Length - 1; i > -1; i--)
+                newString += str[i];
+            return newString;
         }
 
     }
