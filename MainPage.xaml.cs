@@ -107,13 +107,13 @@ namespace Base_Converter
                     switch (comboBox_BaseSelection.SelectedIndex)
                     {
                         case 15: //Floating Point
-                            selectedBaseFromComboBox = "Floating Point";
+                            selectedBaseFromComboBox = 'F';
                             break;
                         case 16: //BCD
-                            selectedBaseFromComboBox = "BCD";
+                            selectedBaseFromComboBox = 'B';
                             break;
                         case 17: //8 Bit
-                            selectedBaseFromComboBox = "8 bit";
+                            selectedBaseFromComboBox = '8';
                             break;
                     }
                 }
@@ -185,28 +185,43 @@ namespace Base_Converter
  
             else
             {
-                switch (selectedBaseToConvertTheNumberFromComboBox)
+                if (selectedBaseFromComboBox == 'F' || selectedBaseFromComboBox == 'B' || selectedBaseFromComboBox == '8')
                 {
-                    case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 11: case 12: case 13:
-                    case 14: case 15: case 16:
-                        baseTenNumber = toBaseTenFromBaseTwoToHex(userValidString, selectedBaseFromComboBox);
-                        if (selectedBaseToConvertTheNumberFromComboBox != 10)
-                        {
-                            sTrNumberToBase = "";
-                            convertFromBaseTenToBaseTwoToHex(baseTenNumber, selectedBaseToConvertTheNumberFromComboBox);
-                            string sTrBase = ReverseString(sTrNumberToBase);
-                            txt_Result.Text = sTrBase;
-                        }
-                        else
-                        {
-                            txt_Result.Text = baseTenNumber.ToString();
-                        }
-                        break;
+                    switch (selectedBaseFromComboBox)
+                    {
+                        case 'F':
+
+                            break;
+                        case 'B':
+                            txt_Result.Text = fromBCDToAnotherBase(userValidString, selectedBaseToConvertTheNumberFromComboBox);
+                            break;
+                        case '8':
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (selectedBaseToConvertTheNumberFromComboBox)
+                    {
+                        case 2: case 3: case 4:case 5: case 6: case 7: case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15: case 16:
+                            baseTenNumber = toBaseTenFromBaseTwoToHex(userValidString, selectedBaseFromComboBox);
+                            if (selectedBaseToConvertTheNumberFromComboBox != 10)
+                            {
+                                sTrNumberToBase = "";
+                                convertFromBaseTenToBaseTwoToHex(baseTenNumber, selectedBaseToConvertTheNumberFromComboBox);
+                                string sTrBase = ReverseString(sTrNumberToBase);
+                                txt_Result.Text = sTrBase;
+                            }
+                            else
+                            {
+                                txt_Result.Text = baseTenNumber.ToString();
+                            }
+                            break;
 
 
 
 
-                    case 'F':
+                        case 'F':
                             if (selectedBaseFromComboBox != 10)
                             {
                                 string stringToParse = "";
@@ -227,14 +242,15 @@ namespace Base_Converter
                             {
                                 txt_Result.Text = toFloatingPoint(userValidString);
                             }
-                        break;
-                    case 'B':
-                        txt_Result.Text = toBCD(userValidString);
-                        break;
-                    case '8':
-                        txt_Result.Text = to8Bit(userValidString);
-                        break;
-                        
+                            break;
+                        case 'B':
+                            txt_Result.Text = toBCD(userValidString);
+                            break;
+                        case '8':
+                            txt_Result.Text = to8Bit(userValidString);
+                            break;
+
+                    }
                 }
             }
         }
@@ -247,8 +263,15 @@ namespace Base_Converter
             txt_Result.Text = "";
         }
 
+
+        /// <summary>
+        /// Convert any base 10 number to another base from 2 to 16.
+        /// </summary>
+        /// <param name="number">the base 10 number.</param>
+        /// <param name="baseNumber">the base desired to convert the base 10 number</param>
         private void convertFromBaseTenToBaseTwoToHex(double number,int baseNumber)
         {
+            
             byte module = 0;
             do
             {
@@ -289,8 +312,16 @@ namespace Base_Converter
                 number /= baseNumber;
 
             } while (number != 0);
+            
+           
         }
 
+        /// <summary>
+        /// returns a base 10 representation of any base from base 2 to base 16.
+        /// </summary>
+        /// <param name="textNumber">The string representation of the base number</param>
+        /// <param name="baseNumber">The base of textNumber parameter.</param>
+        /// <returns></returns>
         private double toBaseTenFromBaseTwoToHex(string textNumber,int baseNumber)
         {
             string notDecimal="",fractionPart= "";
@@ -335,6 +366,12 @@ namespace Base_Converter
             return number;
         }
 
+
+        /// <summary>
+        /// Transforms a binary number to its floating point representation.
+        /// </summary>
+        /// <param name="number"> The binary Number</param>
+        /// <returns>Will return the floating point as a string</returns>
         private string toFloatingPoint(string number)
         {
             sTrNumberToBase = "";
@@ -409,12 +446,67 @@ namespace Base_Converter
             return newNumber;
         }
 
-        private string fromBCDToAnotherBase(string number) {
+        private string fromBCDToAnotherBase(string BCDnumber, dynamic selectedBaseToConvertFromBCD) {
             string newNumber = "";
+            Dictionary<string, int> map = new Dictionary<string, int>
+            {
+                ["0000"] = 0,
+                ["0001"] = 1,
+                ["0010"] = 2,
+                ["0011"] = 3,
+                ["0100"] = 4,
+                ["0101"] = 5,
+                ["0110"] = 6,
+                ["0111"] = 7,
+                ["1000"] = 8,
+                ["1001"] = 9,
 
-            
+            };
+            if (BCDnumber.IndexOf('.') == -1)
+            {
+                for (int i = 0; i < BCDnumber.Length - 3; i+=4)
+                {
+                    newNumber += map[BCDnumber.Substring(i, 4)];
+                }
+            }
+            else
+            {
+                int i = 0;
+                while (i < BCDnumber.Length - 3)
+                {
+                    if (BCDnumber[i] == '.')
+                    {
+                        newNumber += '.';
+                        i += 1;
+                    }
+                    else
+                    {
+                        newNumber += map[BCDnumber.Substring(i, 4)];
+                        i += 4;
+                    }
+                }
+            }
+            switch (selectedBaseToConvertFromBCD)
+            {
+                case 10:
+                    break;
+                case 'B':
+                    newNumber = BCDnumber;
+                    break;
+                case 'F':
+                    double toDoubleFromStringNumber = Double.Parse(newNumber);
+                    convertFromBaseTenToBaseTwoToHex(toDoubleFromStringNumber, 2);
+                    newNumber = toFloatingPoint(sTrNumberToBase);
+                    return newNumber;
+                default:
+                    convertFromBaseTenToBaseTwoToHex(Double.Parse(newNumber), selectedBaseToConvertFromBCD);
+                    newNumber = sTrNumberToBase;
+                    break;
 
-            return newNumber;
+                
+            }
+            return (newNumber[0]=='0' && newNumber[1]!='.')? newNumber.Substring(1):newNumber;
+
         }
 
         private string ReverseString(string str)
