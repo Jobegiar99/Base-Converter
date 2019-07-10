@@ -88,6 +88,8 @@ namespace Base_Converter
             dynamic selectedBaseFromComboBox=0;
             dynamic selectedBaseToConvertTheNumberFromComboBox = 0;
             string userValidString = "";
+            sTrNumberToBase = "";
+            txt_Result.Text = "";
 
             isNegative = ((txt_NumberToConvert.Text[0] == '-') ? true : false);
 
@@ -271,7 +273,6 @@ namespace Base_Converter
         /// <param name="baseNumber">the base desired to convert the base 10 number</param>
         private void convertFromBaseTenToBaseTwoToHex(double number,int baseNumber)
         {
-            
             byte module = 0;
             do
             {
@@ -315,6 +316,8 @@ namespace Base_Converter
             
            
         }
+
+
 
         /// <summary>
         /// returns a base 10 representation of any base from base 2 to base 16.
@@ -367,10 +370,11 @@ namespace Base_Converter
         }
 
 
+
         /// <summary>
-        /// Transforms a binary number to its floating point representation.
+        /// Transforms a base 10 number to its floating point representation.
         /// </summary>
-        /// <param name="number"> The binary Number</param>
+        /// <param name="number"> The Base 10 number desired to be convert into floating point</param>
         /// <returns>Will return the floating point as a string</returns>
         private string toFloatingPoint(string number)
         {
@@ -378,23 +382,21 @@ namespace Base_Converter
             long exponent = 0;
             string Mantisa = "";
             string numberWithoutDot = "";
-            if (number.IndexOf('.') == -1) {
-                exponent = (byte)number.Length;
-                //uses sTrNumberToBase;;
-                convertFromBaseTenToBaseTwoToHex(Double.Parse(number), 2);
-            }
-            else
+            if (number.IndexOf('.') !=-1)
             {
-                bool dotFound = false;
-                foreach (char c in number)
+                string newText = "";
+                for (int i = 0; number[i] != '.'; i++)
                 {
-                    if (c != '.') numberWithoutDot += c;
-                    else dotFound = true;
-                    if (!dotFound) exponent++;
-                    
+                    newText += number[i];
                 }
-                convertFromBaseTenToBaseTwoToHex(Double.Parse(numberWithoutDot), 2);
+                number = newText;
+               
+               
             }
+            convertFromBaseTenToBaseTwoToHex(Double.Parse(number), 2);
+            ReverseString(sTrNumberToBase);
+            exponent = sTrNumberToBase.Length;
+
             Mantisa = ReverseString(sTrNumberToBase);
             if (Mantisa.Length < 13)
                 for (int i = Mantisa.Length; i < 12; i++)
@@ -424,6 +426,11 @@ namespace Base_Converter
             return newNumber;
         }
 
+        /// <summary>
+        /// This functions transform a base 10 number to its 8 bit representation
+        /// </summary>
+        /// <param name="numberToConvert">The base 10 string that will be transformed into its 8 bit representation</param>
+        /// <returns>The string that represents the base 10 number as an 8 bit number.</returns>
         private string to8Bit(string numberToConvert)
         {
             string newNumber = "";
@@ -434,14 +441,14 @@ namespace Base_Converter
                 number -= (number % 2);
                 number /= 2;
             }
-            if (newNumber.Length < 7)
+            if (newNumber.Length < 8)
             {
                 while (newNumber.Length < 7)
                 {
                     newNumber += '0';
                 }
             }
-            newNumber += (isNegative) ? '1' : '0';
+            newNumber += (!isNegative) ? "00" : "1";
             newNumber = ReverseString(newNumber);
             return newNumber;
         }
@@ -466,7 +473,7 @@ namespace Base_Converter
             {
                 for (int i = 0; i < BCDnumber.Length - 3; i+=4)
                 {
-                    newNumber += map[BCDnumber.Substring(i, 4)];
+                    newNumber += map[BCDnumber.Substring(i, 4)].ToString();
                 }
             }
             else
@@ -486,21 +493,32 @@ namespace Base_Converter
                     }
                 }
             }
+
+
             switch (selectedBaseToConvertFromBCD)
             {
                 case 10:
+                    break;
+                case '8':
+                    if (Double.Parse(newNumber) < 128 && Double.Parse(newNumber) > -128)
+                    {
+                        newNumber = to8Bit(newNumber);
+                    }
+                    else
+                    {
+                        return "That number can't be represented with 8 bit.";
+                    }
                     break;
                 case 'B':
                     newNumber = BCDnumber;
                     break;
                 case 'F':
-                    double toDoubleFromStringNumber = Double.Parse(newNumber);
-                    convertFromBaseTenToBaseTwoToHex(toDoubleFromStringNumber, 2);
-                    newNumber = toFloatingPoint(sTrNumberToBase);
+                    newNumber = toFloatingPoint(newNumber);
                     return newNumber;
                 default:
                     convertFromBaseTenToBaseTwoToHex(Double.Parse(newNumber), selectedBaseToConvertFromBCD);
                     newNumber = sTrNumberToBase;
+                    newNumber = ReverseString(newNumber);
                     break;
 
                 

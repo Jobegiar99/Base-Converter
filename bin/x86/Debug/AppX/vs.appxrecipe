@@ -30,13 +30,13 @@
     <AppXManifest Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2019-07-08T21:48:25.663</Modified>
+      <Modified>2019-07-10T02:48:10.335</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\Base Converter.exe">
       <PackagePath>entrypoint\Base Converter.exe</PackagePath>
-      <Modified>2019-07-08T21:48:25.226</Modified>
+      <Modified>2019-07-10T02:48:09.966</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\UWPNuGetPackages\microsoft.csharp\4.0.1\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -542,11 +542,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2019-07-08T21:48:25.063</Modified>
+      <Modified>2019-07-10T02:48:09.790</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2019-07-08T21:48:25.063</Modified>
+      <Modified>2019-07-10T02:48:09.791</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.17763.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -558,7 +558,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\Core\Base Converter.exe">
       <PackagePath>Base Converter.exe</PackagePath>
-      <Modified>2019-07-08T21:48:25.628</Modified>
+      <Modified>2019-07-10T02:48:10.320</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
