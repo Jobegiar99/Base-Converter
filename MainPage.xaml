@@ -1,4 +1,5 @@
 ﻿<Page
+    Name="DaPage"
     x:Class="Base_Converter.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,9 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     mc:Ignorable="d"
-    Background="CornflowerBlue" Height="500" Width="500"  MaxHeight="1000" MinHeight="500" MaxWidth="1000" MinWidth="500" FontFamily="Californian FB">
-
-    <Grid>
+    Background="CornflowerBlue"  Height="auto" Width="auto"    FontFamily="Californian FB">
+    <Grid Name="DaGrid" Height="500" Width="500" Background="CornflowerBlue">
         <TextBlock HorizontalAlignment="Left" FontSize="18" Margin="143,10,0,0" Text="Select the base of the number" TextWrapping="Wrap" VerticalAlignment="Top" Width="406"  />
         <ComboBox  Name="comboBox_BaseSelection" Windows10FallCreatorsUpdate:HorizontalContentAlignment="Center" Width="353" Height="32" HorizontalAlignment="Center" Margin="0,44,0,0"/>
         <TextBlock HorizontalAlignment="Center" FontSize="18" Margin="0,149,0,0" Text="Select To Which Base you Wish to Convert your Number" TextWrapping="Wrap" VerticalAlignment="Top" Width="420"  />
@@ -20,5 +20,9 @@
         <Button Name="button_Clear" Content="Clear" Margin="328,271,0,0" Width="100" VerticalAlignment="Top" Click="Button_Clear_Click"/>
         <TextBlock  Windows10FallCreatorsUpdate:HorizontalTextAlignment="Center" FontSize="18" HorizontalAlignment="Left" Margin="74,333,0,0" Text="Result" TextWrapping="Wrap" VerticalAlignment="Top" Width="348"/>
         <TextBox Name="txt_Result"  Windows10FallCreatorsUpdate:HorizontalTextAlignment="Center" HorizontalAlignment="Center" Margin="0,370,0,0" Text="" VerticalAlignment="Top" Width="353"/>
+        <TextBlock Windows10FallCreatorsUpdate:HorizontalTextAlignment="Center" Name="txt_credit" Tapped="Txt_credit_Tapped" HorizontalAlignment="Center" Margin="0,-86,0,0" Text="Developed by Jobegiar99." FontSize="20" TextWrapping="Wrap" VerticalAlignment="Top">
+            <LineBreak></LineBreak><Span></Span><Hyperlink NavigateUri="https://github.com/Jobegiar99"> Click here to go to my Github</Hyperlink>
+        </TextBlock>
+
     </Grid>
 </Page>

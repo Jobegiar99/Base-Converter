@@ -1,0 +1,1 @@
+C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\Base Converter.csproj;arm

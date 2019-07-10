@@ -30,13 +30,13 @@
     <AppXManifest Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2019-07-10T02:48:10.335</Modified>
+      <Modified>2019-07-10T22:17:37.649</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\Base Converter.exe">
       <PackagePath>entrypoint\Base Converter.exe</PackagePath>
-      <Modified>2019-07-10T02:48:09.966</Modified>
+      <Modified>2019-07-10T22:17:37.282</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\UWPNuGetPackages\microsoft.csharp\4.0.1\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -538,15 +538,15 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\Base Converter.xr.xml">
       <PackagePath>Base Converter.xr.xml</PackagePath>
-      <Modified>2019-06-18T21:33:00.534</Modified>
+      <Modified>2019-07-10T21:59:50.136</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2019-07-10T02:48:09.790</Modified>
+      <Modified>2019-07-10T22:17:37.074</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2019-07-10T02:48:09.791</Modified>
+      <Modified>2019-07-10T22:17:37.074</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.17763.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -554,11 +554,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2019-07-07T16:18:11.477</Modified>
+      <Modified>2019-07-10T19:18:22.374</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Bernardo\Documents\PersonalProjects\Coding\Base Converter\bin\x86\Debug\Core\Base Converter.exe">
       <PackagePath>Base Converter.exe</PackagePath>
-      <Modified>2019-07-10T02:48:10.320</Modified>
+      <Modified>2019-07-10T22:17:37.637</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

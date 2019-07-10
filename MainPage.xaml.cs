@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace Base_Converter
@@ -31,10 +32,10 @@ namespace Base_Converter
         public MainPage()
         {
             this.InitializeComponent();
-            ApplicationView.PreferredLaunchViewSize = new Size(500, 500);
+           /* ApplicationView.PreferredLaunchViewSize = new Size(500, 500);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;*/
 
             //comboBox_BaseSelection items
 
@@ -83,175 +84,207 @@ namespace Base_Converter
             }
         }
 
+
         private void Button_Calculate_Click(object sender, RoutedEventArgs e)
         {
-            dynamic selectedBaseFromComboBox=0;
-            dynamic selectedBaseToConvertTheNumberFromComboBox = 0;
-            string userValidString = "";
-            sTrNumberToBase = "";
-            txt_Result.Text = "";
-
-            isNegative = ((txt_NumberToConvert.Text[0] == '-') ? true : false);
-
-            txt_NumberToConvert.Text.ToUpper();
-
-            //The Following area contains the logic that will set the base of the number to convert and the base of the result.
-            /*Click To Expand*/{
-
-                //The base of the number
-
-                if (comboBox_BaseSelection.SelectedIndex < 15)  
-                    selectedBaseFromComboBox = 2 + comboBox_BaseSelection.SelectedIndex;
-
-
-                else
-                {
-                    switch (comboBox_BaseSelection.SelectedIndex)
-                    {
-                        case 15: //Floating Point
-                            selectedBaseFromComboBox = 'F';
-                            break;
-                        case 16: //BCD
-                            selectedBaseFromComboBox = 'B';
-                            break;
-                        case 17: //8 Bit
-                            selectedBaseFromComboBox = '8';
-                            break;
-                    }
-                }
-
-                //The base of the result
-
-                if (comboBox_BaseToConvertSelection.SelectedIndex < 15)
-                {
-                   selectedBaseToConvertTheNumberFromComboBox = 2 + comboBox_BaseToConvertSelection.SelectedIndex;
-                }
-
-                else
-                {
-                    switch (comboBox_BaseToConvertSelection.SelectedIndex)
-                    {
-                        case 15: //Floating Point
-                            selectedBaseToConvertTheNumberFromComboBox = 'F';
-                            break;
-                        case 16: //BCD
-                            selectedBaseToConvertTheNumberFromComboBox = 'B';
-                            break;
-                        case 17: //8 Bit
-                            selectedBaseToConvertTheNumberFromComboBox = '8';
-                            break;
-                    }
-                }
-            }
-
-
-            //This for will add every number character to a new string and then check if the string is a valid one.
-            foreach (char c in txt_NumberToConvert.Text)
+            if (comboBox_BaseSelection.SelectedIndex == -1 || comboBox_BaseToConvertSelection.SelectedIndex == -1)
             {
-                if ((c >= 48 && c <= 57)|| c=='.' || (c>=65 && c<=70))
-                    userValidString += c;
+                txt_Result.Text = "You need to select both bases";
             }
-
-
-            foreach (char c in userValidString)
-            {
-                if (c!='.')
-                switch (selectedBaseFromComboBox)
-                {
-                    case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10:
-                        if (c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F')
-                            userValidString = "";
-                        else if (Byte.Parse(c.ToString()) >= selectedBaseFromComboBox)
-                            userValidString = "";
-                        break;
-                    case 11: if (c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F') userValidString = ""; break;
-                    case 12: if (c == 'C' || c == 'D' || c == 'E' || c == 'F') userValidString = ""; break;
-                    case 13: if (c == 'D' || c == 'E' || c == 'F') userValidString = ""; break;
-                    case 14: if (c == 'E' || c == 'F') userValidString = ""; break;
-                    case 15: if (c == 'F') userValidString = ""; break;
-                    default: break;
-                }
-            }
-
-            
-            //Will send an error message if the string is empty.
-            if (userValidString == "")
-            {
-                var errorMessage = new MessageDialog("Write a valid number. A valid number must have at least 1 (one) digit.\nThe digits of the number must be smaller than the number of the base.\n"+
-                    "Example: If the base is 3, the biggest digit for the number must be 2.");
-                errorMessage.Title = "Error";
-                errorMessage.Options = MessageDialogOptions.AcceptUserInputAfterDelay;
-                
-                errorMessage.ShowAsync();
-            }
- 
             else
             {
-                if (selectedBaseFromComboBox == 'F' || selectedBaseFromComboBox == 'B' || selectedBaseFromComboBox == '8')
-                {
-                    switch (selectedBaseFromComboBox)
-                    {
-                        case 'F':
+                dynamic selectedBaseFromComboBox = 0;
+                dynamic selectedBaseToConvertTheNumberFromComboBox = 0;
+                string userValidString = "";
+                sTrNumberToBase = "";
+                txt_Result.Text = "";
 
-                            break;
-                        case 'B':
-                            txt_Result.Text = fromBCDToAnotherBase(userValidString, selectedBaseToConvertTheNumberFromComboBox);
-                            break;
-                        case '8':
-                            break;
+                isNegative = ((txt_NumberToConvert.Text[0] == '-') ? true : false);
+
+                txt_NumberToConvert.Text.ToUpper();
+
+                //The Following area contains the logic that will set the base of the number to convert and the base of the result.
+                /*Click To Expand*/
+                {
+
+                    //The base of the number
+
+                    if (comboBox_BaseSelection.SelectedIndex < 15)
+                        selectedBaseFromComboBox = 2 + comboBox_BaseSelection.SelectedIndex;
+
+
+                    else
+                    {
+                        switch (comboBox_BaseSelection.SelectedIndex)
+                        {
+                            case 15: //Floating Point
+                                selectedBaseFromComboBox = 'F';
+                                break;
+                            case 16: //BCD
+                                selectedBaseFromComboBox = 'B';
+                                break;
+                            case 17: //8 Bit
+                                selectedBaseFromComboBox = '8';
+                                break;
+                        }
+                    }
+
+                    //The base of the result
+
+                    if (comboBox_BaseToConvertSelection.SelectedIndex < 15)
+                    {
+                        selectedBaseToConvertTheNumberFromComboBox = 2 + comboBox_BaseToConvertSelection.SelectedIndex;
+                    }
+
+                    else
+                    {
+                        switch (comboBox_BaseToConvertSelection.SelectedIndex)
+                        {
+                            case 15: //Floating Point
+                                selectedBaseToConvertTheNumberFromComboBox = 'F';
+                                break;
+                            case 16: //BCD
+                                selectedBaseToConvertTheNumberFromComboBox = 'B';
+                                break;
+                            case 17: //8 Bit
+                                selectedBaseToConvertTheNumberFromComboBox = '8';
+                                break;
+                        }
                     }
                 }
+
+
+                //This for will add every number character to a new string and then check if the string is a valid one.
+                foreach (char c in txt_NumberToConvert.Text)
+                {
+                    if ((c >= 48 && c <= 57) || c == '.' || (c >= 65 && c <= 70))
+                        userValidString += c;
+                }
+
+
+                foreach (char c in userValidString)
+                {
+                    if (c != '.')
+                        switch (selectedBaseFromComboBox)
+                        {
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 7:
+                            case 8:
+                            case 9:
+                            case 10:
+                                if (c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F')
+                                    userValidString = "";
+                                else if (Byte.Parse(c.ToString()) >= selectedBaseFromComboBox)
+                                    userValidString = "";
+                                break;
+                            case 11: if (c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F') userValidString = ""; break;
+                            case 12: if (c == 'C' || c == 'D' || c == 'E' || c == 'F') userValidString = ""; break;
+                            case 13: if (c == 'D' || c == 'E' || c == 'F') userValidString = ""; break;
+                            case 14: if (c == 'E' || c == 'F') userValidString = ""; break;
+                            case 15: if (c == 'F') userValidString = ""; break;
+                            default: break;
+                        }
+                }
+
+
+                //Will send an error message if the string is empty.
+                if (userValidString == "")
+                {
+                    txt_Result.Text = "Write a valid number";
+                }
+
                 else
                 {
-                    switch (selectedBaseToConvertTheNumberFromComboBox)
+                    if (selectedBaseFromComboBox == 'F' || selectedBaseFromComboBox == 'B' || selectedBaseFromComboBox == '8')
                     {
-                        case 2: case 3: case 4:case 5: case 6: case 7: case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15: case 16:
-                            baseTenNumber = toBaseTenFromBaseTwoToHex(userValidString, selectedBaseFromComboBox);
-                            if (selectedBaseToConvertTheNumberFromComboBox != 10)
-                            {
-                                sTrNumberToBase = "";
-                                convertFromBaseTenToBaseTwoToHex(baseTenNumber, selectedBaseToConvertTheNumberFromComboBox);
-                                string sTrBase = ReverseString(sTrNumberToBase);
-                                txt_Result.Text = sTrBase;
-                            }
-                            else
-                            {
-                                txt_Result.Text = baseTenNumber.ToString();
-                            }
-                            break;
+                        switch (selectedBaseFromComboBox)
+                        {
+                            case 'F':
 
-
-
-
-                        case 'F':
-                            if (selectedBaseFromComboBox != 10)
-                            {
-                                string stringToParse = "";
-                                bool found = false;
-                                for (int i = 0; i < userValidString.Length && !found; i++)
+                                break;
+                            case 'B':
+                                txt_Result.Text = FromBCDToAnotherBase(userValidString, selectedBaseToConvertTheNumberFromComboBox);
+                                break;
+                            case '8':
+                                txt_Result.Text = From8BitToAnotherBase(userValidString, selectedBaseToConvertTheNumberFromComboBox);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (selectedBaseToConvertTheNumberFromComboBox)
+                        {
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 7:
+                            case 8:
+                            case 9:
+                            case 10:
+                            case 11:
+                            case 12:
+                            case 13:
+                            case 14:
+                            case 15:
+                            case 16:
+                                baseTenNumber = ToBaseTenFromBaseTwoToHex(userValidString, selectedBaseFromComboBox);
+                                if (selectedBaseToConvertTheNumberFromComboBox != 10)
                                 {
-                                    if (userValidString[i] == '.')
-                                        found = true;
-                                    if (!found)
-                                        stringToParse += userValidString[i];
+                                    sTrNumberToBase = "";
+                                    ConvertFromBaseTenToBaseTwoToHex(baseTenNumber, selectedBaseToConvertTheNumberFromComboBox);
+                                    string sTrBase = ReverseString(sTrNumberToBase);
+                                    txt_Result.Text = sTrBase;
                                 }
+                                else
+                                {
+                                    txt_Result.Text = baseTenNumber.ToString();
+                                }
+                                break;
 
 
 
-                                txt_Result.Text = toFloatingPoint((toBaseTenFromBaseTwoToHex(stringToParse, selectedBaseFromComboBox)).ToString());
-                            }
-                            else
-                            {
-                                txt_Result.Text = toFloatingPoint(userValidString);
-                            }
-                            break;
-                        case 'B':
-                            txt_Result.Text = toBCD(userValidString);
-                            break;
-                        case '8':
-                            txt_Result.Text = to8Bit(userValidString);
-                            break;
 
+                            case 'F':
+                                if (selectedBaseFromComboBox != 10)
+                                {
+                                    string stringToParse = "";
+                                    bool found = false;
+                                    for (int i = 0; i < userValidString.Length && !found; i++)
+                                    {
+                                        if (userValidString[i] == '.')
+                                            found = true;
+                                        if (!found)
+                                            stringToParse += userValidString[i];
+                                    }
+
+
+
+                                    txt_Result.Text = ToFloatingPoint((ToBaseTenFromBaseTwoToHex(stringToParse, selectedBaseFromComboBox)).ToString());
+                                }
+                                else
+                                {
+                                    txt_Result.Text = ToFloatingPoint(userValidString);
+                                }
+                                break;
+                            case 'B':
+                              
+                                txt_Result.Text = ToBCD(userValidString);
+                                break;
+                            case '8':
+                                if (selectedBaseFromComboBox != 10)
+                                {
+                                    userValidString = (ToBaseTenFromBaseTwoToHex(userValidString, selectedBaseFromComboBox)).ToString();
+                                }
+                                txt_Result.Text = To8Bit(userValidString);
+                                break;
+
+                        }
                     }
                 }
             }
@@ -266,12 +299,19 @@ namespace Base_Converter
         }
 
 
+
+        private void Txt_credit_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            
+        }
+
+
         /// <summary>
         /// Convert any base 10 number to another base from 2 to 16.
         /// </summary>
         /// <param name="number">the base 10 number.</param>
         /// <param name="baseNumber">the base desired to convert the base 10 number</param>
-        private void convertFromBaseTenToBaseTwoToHex(double number,int baseNumber)
+        private void ConvertFromBaseTenToBaseTwoToHex(double number,int baseNumber)
         {
             byte module = 0;
             do
@@ -325,7 +365,7 @@ namespace Base_Converter
         /// <param name="textNumber">The string representation of the base number</param>
         /// <param name="baseNumber">The base of textNumber parameter.</param>
         /// <returns></returns>
-        private double toBaseTenFromBaseTwoToHex(string textNumber,int baseNumber)
+        private double ToBaseTenFromBaseTwoToHex(string textNumber,int baseNumber)
         {
             string notDecimal="",fractionPart= "";
             double number = 0.0;
@@ -376,12 +416,12 @@ namespace Base_Converter
         /// </summary>
         /// <param name="number"> The Base 10 number desired to be convert into floating point</param>
         /// <returns>Will return the floating point as a string</returns>
-        private string toFloatingPoint(string number)
+        private string ToFloatingPoint(string number)
         {
             sTrNumberToBase = "";
             long exponent = 0;
             string Mantisa = "";
-            string numberWithoutDot = "";
+            
             if (number.IndexOf('.') !=-1)
             {
                 string newText = "";
@@ -393,7 +433,7 @@ namespace Base_Converter
                
                
             }
-            convertFromBaseTenToBaseTwoToHex(Double.Parse(number), 2);
+            ConvertFromBaseTenToBaseTwoToHex(Double.Parse(number), 2);
             ReverseString(sTrNumberToBase);
             exponent = sTrNumberToBase.Length;
 
@@ -404,7 +444,7 @@ namespace Base_Converter
                     Mantisa += '0';
                 }
             sTrNumberToBase = "";
-            convertFromBaseTenToBaseTwoToHex((64 + exponent), 2);
+            ConvertFromBaseTenToBaseTwoToHex((64 + exponent), 2);
             
 
             return (((isNegative) ? '1' : '0') + " " +ReverseString(sTrNumberToBase)+ " " + Mantisa);
@@ -412,7 +452,13 @@ namespace Base_Converter
 
         }
 
-        private string toBCD(string numberToConvert)
+
+        /// <summary>
+        /// Converts any base 10 number to bcd.
+        /// </summary>
+        /// <param name="numberToConvert">A base 10 string desired to be converted into BCD.</param>
+        /// <returns>A string representation of the BCD number</returns>
+        private string ToBCD(string numberToConvert)
         {
             string newNumber = "";
             string[] binaryNumbers = { "0000", "0001", "0010", "0011", "0100", "0101", "0110", "0111", "1000", "1001" };
@@ -431,29 +477,45 @@ namespace Base_Converter
         /// </summary>
         /// <param name="numberToConvert">The base 10 string that will be transformed into its 8 bit representation</param>
         /// <returns>The string that represents the base 10 number as an 8 bit number.</returns>
-        private string to8Bit(string numberToConvert)
+        private string To8Bit(string numberToConvert)
         {
-            string newNumber = "";
-            int number = Int32.Parse(numberToConvert);
-            while (number > 0)
+            if (Int64.Parse(numberToConvert) > 127 || Int64.Parse(numberToConvert) < -127)
             {
-                newNumber += (number % 2).ToString();
-                number -= (number % 2);
-                number /= 2;
+                return "That number can't be represented with 8 bit.";
             }
-            if (newNumber.Length < 8)
+            else
             {
-                while (newNumber.Length < 7)
+                string newNumber = "";
+                int number = Int32.Parse(numberToConvert);
+                while (number > 0)
                 {
-                    newNumber += '0';
+                    newNumber += (number % 2).ToString();
+                    number -= (number % 2);
+                    number /= 2;
                 }
+                if (newNumber.Length < 8)
+                {
+                    while (newNumber.Length < 7)
+                    {
+                        newNumber += '0';
+                    }
+                }
+                newNumber += (!isNegative) ? "00" : "1";
+                newNumber = ReverseString(newNumber);
+                return newNumber;
             }
-            newNumber += (!isNegative) ? "00" : "1";
-            newNumber = ReverseString(newNumber);
-            return newNumber;
+
         }
 
-        private string fromBCDToAnotherBase(string BCDnumber, dynamic selectedBaseToConvertFromBCD) {
+
+
+        /// <summary>
+        /// Converts any BCD number to any base.
+        /// </summary>
+        /// <param name="BCDnumber">The string representation of the BCD number</param>
+        /// <param name="selectedBaseToConvertFromBCD">The desired base to convert the BCD number</param>
+        /// <returns>A string representation of the new base</returns>
+        private string FromBCDToAnotherBase(string BCDnumber, dynamic selectedBaseToConvertFromBCD) {
             string newNumber = "";
             Dictionary<string, int> map = new Dictionary<string, int>
             {
@@ -502,7 +564,7 @@ namespace Base_Converter
                 case '8':
                     if (Double.Parse(newNumber) < 128 && Double.Parse(newNumber) > -128)
                     {
-                        newNumber = to8Bit(newNumber);
+                        newNumber = To8Bit(newNumber);
                     }
                     else
                     {
@@ -513,10 +575,10 @@ namespace Base_Converter
                     newNumber = BCDnumber;
                     break;
                 case 'F':
-                    newNumber = toFloatingPoint(newNumber);
+                    newNumber = ToFloatingPoint(newNumber);
                     return newNumber;
                 default:
-                    convertFromBaseTenToBaseTwoToHex(Double.Parse(newNumber), selectedBaseToConvertFromBCD);
+                    ConvertFromBaseTenToBaseTwoToHex(Double.Parse(newNumber), selectedBaseToConvertFromBCD);
                     newNumber = sTrNumberToBase;
                     newNumber = ReverseString(newNumber);
                     break;
@@ -527,6 +589,63 @@ namespace Base_Converter
 
         }
 
+
+        /// <summary>
+        /// Converts any 8bit number to any base
+        /// </summary>
+        /// <param name="bitNumber">The string representation of the 8bit number</param>
+        /// <param name="selectedBaseToConvertFrom8Bit">The desired base to convert the BCD Number</param>
+        /// <returns>A string representation of the new base</returns>
+        private string From8BitToAnotherBase(string bitNumber,dynamic selectedBaseToConvertFrom8Bit)
+        {
+            if (bitNumber.Length == 8)
+            {
+                bool isValid = true;
+                foreach (char c in bitNumber)
+                    if (c != '0' && c != '1')
+                        isValid = false;
+                if (isValid)
+                {
+                    double base10Number = 0;
+                    string newBase = "";
+                    for (int i = 7; i > 0; i--)
+                    {
+                        base10Number += (Math.Pow(2, 7 - i)) * Byte.Parse(bitNumber[i].ToString());
+                    }
+                    switch (selectedBaseToConvertFrom8Bit)
+                    {
+                        case 10:
+                            newBase += ((bitNumber[0] == '0') ? "" : "-") + base10Number.ToString();
+                            break;
+                        case '8':
+                            newBase = bitNumber;
+                            break;
+                        case 'F':
+                            isNegative = ((bitNumber[0] == '0') ? false : true);
+                            newBase = ToFloatingPoint(base10Number.ToString());
+                            break;
+                        case 'B':
+                            newBase = ToBCD(base10Number.ToString());
+                            break;
+                        default:
+                            ConvertFromBaseTenToBaseTwoToHex(base10Number, selectedBaseToConvertFrom8Bit);
+                            newBase += ((bitNumber[0] == '0') ? "" : "-") + ReverseString(sTrNumberToBase);
+                            break;
+                    }
+
+                    return newBase;
+                }
+            }
+            return "Type a correct 8 bit number";
+
+        }
+
+
+        /// <summary>
+        /// Reverses any string.
+        /// </summary>
+        /// <param name="str">The desired string to reverse</param>
+        /// <returns>The reversed version of the string</returns>
         private string ReverseString(string str)
         {
             string newString = "";
@@ -535,5 +654,6 @@ namespace Base_Converter
             return newString;
         }
 
+      
     }
 }
