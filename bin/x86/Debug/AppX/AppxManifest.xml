@@ -23,13 +23,14 @@
     <Resource Language="EN-US" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="Base Converter.exe" EntryPoint="Base_Converter.App">
-      <uap:VisualElements DisplayName="Base Converter" Square150x150Logo="Assets\Square150x150Logo.png" Description="This app allows you to convert a number from any base to another base." BackgroundColor="transparent" Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+    <Application Id="App" Executable="Base Converter.exe" EntryPoint="Base_Converter+.App">
+      <uap:VisualElements DisplayName="Base Converter+" Square150x150Logo="Assets\Square150x150Logo.png" Description="This app allows you to convert  any number from base 2 to 16, BCD number and 8 bit to any base from 2 to 16, BCD number, 8 bit or floating point." BackgroundColor="transparent" Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png" ShortName="Base Converter+" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="landscape" />
         </uap:InitialRotationPreference>
+        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badgeAndTileText" />
       </uap:VisualElements>
     </Application>
   </Applications>

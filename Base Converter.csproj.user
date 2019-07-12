@@ -7,5 +7,12 @@
   <PropertyGroup>
     <AppIconSource>C:\Users\Bernardo\Desktop\Icono BC+.png</AppIconSource>
     <SplashScreenSource>C:\Users\Bernardo\Desktop\Icono BC+.png</SplashScreenSource>
+    <Source>C:\Users\Bernardo\Desktop\Icono BC+.png</Source>
+    <SmallTileSource>C:\Users\Bernardo\Desktop\Icono BC+.png</SmallTileSource>
+    <MediumTileSource>C:\Users\Bernardo\Desktop\Icono BC+.png</MediumTileSource>
+    <WideTileSource>C:\Users\Bernardo\Desktop\Icono BC+.png</WideTileSource>
+    <LargeTileSource>C:\Users\Bernardo\Desktop\Icono BC+.png</LargeTileSource>
+    <BadgeLogoSource>C:\Users\Bernardo\Desktop\Icono BC+.png</BadgeLogoSource>
+    <PackageLogoSource>C:\Users\Bernardo\Desktop\Icono BC+.png</PackageLogoSource>
   </PropertyGroup>
 </Project>

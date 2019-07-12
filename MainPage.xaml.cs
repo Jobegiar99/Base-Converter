@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+
 
 namespace Base_Converter
 {
@@ -25,21 +25,26 @@ namespace Base_Converter
     /// </summary>
     public sealed partial class MainPage : Page
     {
+       
         string sTrNumberToBase = "";
         double baseTenNumber = 0;
         bool isNegative;
 
         public MainPage()
         {
+            
             this.InitializeComponent();
-           /* ApplicationView.PreferredLaunchViewSize = new Size(500, 500);
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;*/
+            var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+            appView.Title = "";
+            /* ApplicationView.PreferredLaunchViewSize = new Size(500, 500);
+             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
+             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
+             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;*/
 
             //comboBox_BaseSelection items
 
-            /* Click to expand */{
+            /* Click to expand */
+            {
                 comboBox_BaseSelection.Items.Add("Base 2");
                 comboBox_BaseSelection.Items.Add("Base 3");
                 comboBox_BaseSelection.Items.Add("Base 4");
@@ -184,7 +189,8 @@ namespace Base_Converter
                             case 13: if (c == 'D' || c == 'E' || c == 'F') userValidString = ""; break;
                             case 14: if (c == 'E' || c == 'F') userValidString = ""; break;
                             case 15: if (c == 'F') userValidString = ""; break;
-                            default: break;
+                            default:
+                                break;
                         }
                 }
 
@@ -304,10 +310,11 @@ namespace Base_Converter
         /// <param name="baseNumber">the base desired to convert the base 10 number</param>
         private void ConvertFromBaseTenToBaseTwoToHex(double number,int baseNumber)
         {
+         
             byte module = 0;
             do
             {
-                module =(byte)(number % baseNumber);
+                module = (byte)(number % baseNumber);
                 switch (module)
                 {
                     case 10:
@@ -339,13 +346,11 @@ namespace Base_Converter
                         break;
 
                 }
-            
                 number -= (number % baseNumber);
                 number /= baseNumber;
 
             } while (number != 0);
-            
-           
+  
         }
 
 
@@ -471,6 +476,10 @@ namespace Base_Converter
         /// <returns>The string that represents the base 10 number as an 8 bit number.</returns>
         private string To8Bit(string numberToConvert)
         {
+            if (numberToConvert.IndexOf('.') != -1)
+            {
+                numberToConvert = numberToConvert.Substring(0, numberToConvert.IndexOf('.'));
+            }
             if (Int64.Parse(numberToConvert) > 127 || Int64.Parse(numberToConvert) < -127)
             {
                 return "That number can't be represented with 8 bit.";
@@ -492,7 +501,7 @@ namespace Base_Converter
                         newNumber += '0';
                     }
                 }
-                newNumber += (!isNegative) ? "00" : "1";
+                newNumber += (!isNegative) ? "0" : "1";
                 newNumber = ReverseString(newNumber);
                 return newNumber;
             }
@@ -508,6 +517,14 @@ namespace Base_Converter
         /// <param name="selectedBaseToConvertFromBCD">The desired base to convert the BCD number</param>
         /// <returns>A string representation of the new base</returns>
         private string FromBCDToAnotherBase(string BCDnumber, dynamic selectedBaseToConvertFromBCD) {
+            foreach (char c in BCDnumber)
+            {
+                if (c!='.')
+                    if ((c != '0' && c != '1'))
+                        return "Type a valid BCD Number";
+            }
+
+
             string newNumber = "";
             Dictionary<string, int> map = new Dictionary<string, int>
             {
@@ -525,13 +542,28 @@ namespace Base_Converter
             };
             if (BCDnumber.IndexOf('.') == -1)
             {
+                if (BCDnumber.Length % 4 != 0)
+                {
+                    return "Type a valid BCD Number";
+                }
                 for (int i = 0; i < BCDnumber.Length - 3; i+=4)
                 {
-                    newNumber += map[BCDnumber.Substring(i, 4)].ToString();
+                    try
+                    {
+                        newNumber += map[BCDnumber.Substring(i, 4)].ToString();
+                    }
+                    catch (Exception)
+                    {
+                        return "Type a valid BCD Number";
+                    }
                 }
             }
             else
             {
+                if ((BCDnumber.Length - 1) % 4 != 0)
+                {
+                    return "Type a valid BCD Number";
+                }
                 int i = 0;
                 while (i < BCDnumber.Length - 3)
                 {
@@ -542,8 +574,16 @@ namespace Base_Converter
                     }
                     else
                     {
-                        newNumber += map[BCDnumber.Substring(i, 4)];
-                        i += 4;
+                        try
+                        {
+                            newNumber += map[BCDnumber.Substring(i, 4)].ToString();
+                            i += 4;
+                        }
+                        catch (Exception)
+                        {
+                            return "Type a valid BCD Number";
+                        }
+                        
                     }
                 }
             }
@@ -577,7 +617,7 @@ namespace Base_Converter
 
                 
             }
-            return (newNumber[0]=='0' && newNumber[1]!='.')? newNumber.Substring(1):newNumber;
+            return (newNumber[0]=='0' && newNumber[1]!='.')? newNumber.Substring(1):(newNumber[0]=='.')? "0"+newNumber: newNumber;
 
         }
 
