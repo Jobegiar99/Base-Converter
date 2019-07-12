@@ -4,4 +4,8 @@
     <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>
     <UseEmulator>true</UseEmulator>
   </PropertyGroup>
+  <PropertyGroup>
+    <AppIconSource>C:\Users\Bernardo\Desktop\Icono BC+.png</AppIconSource>
+    <SplashScreenSource>C:\Users\Bernardo\Desktop\Icono BC+.png</SplashScreenSource>
+  </PropertyGroup>
 </Project>

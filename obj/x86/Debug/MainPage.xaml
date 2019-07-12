@@ -20,7 +20,7 @@
         <Button x:ConnectionId='7' Name="button_Clear" Content="Clear" Margin="328,271,0,0" Width="100" VerticalAlignment="Top"                           />
         <TextBlock  Windows10FallCreatorsUpdate:HorizontalTextAlignment="Center" FontSize="18" HorizontalAlignment="Left" Margin="74,333,0,0" Text="Result" TextWrapping="Wrap" VerticalAlignment="Top" Width="348"/>
         <TextBox x:ConnectionId='8' Name="txt_Result"  Windows10FallCreatorsUpdate:HorizontalTextAlignment="Center" HorizontalAlignment="Center" Margin="0,370,0,0" Text="" VerticalAlignment="Top" Width="353"/>
-        <TextBlock x:ConnectionId='9' Windows10FallCreatorsUpdate:HorizontalTextAlignment="Center" Name="txt_credit"                            HorizontalAlignment="Center" Margin="0,-86,0,0" Text="Developed by Jobegiar99." FontSize="20" TextWrapping="Wrap" VerticalAlignment="Top">
+        <TextBlock x:ConnectionId='9' Windows10FallCreatorsUpdate:HorizontalTextAlignment="Center" Name="txt_credit"  HorizontalAlignment="Center" Margin="0,-86,0,0" Text="Developed by Jobegiar99." FontSize="20" TextWrapping="Wrap" VerticalAlignment="Top">
             <LineBreak></LineBreak><Span></Span><Hyperlink NavigateUri="https://github.com/Jobegiar99"> Click here to go to my Github</Hyperlink>
         </TextBlock>
 

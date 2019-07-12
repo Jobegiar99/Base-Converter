@@ -55,7 +55,6 @@ namespace Base_Converter
                 comboBox_BaseSelection.Items.Add("Base 14");
                 comboBox_BaseSelection.Items.Add("Base 15");
                 comboBox_BaseSelection.Items.Add("Base 16");
-                comboBox_BaseSelection.Items.Add("Floating Point");
                 comboBox_BaseSelection.Items.Add("BCD");
                 comboBox_BaseSelection.Items.Add("8 Bit");
             }
@@ -87,6 +86,7 @@ namespace Base_Converter
 
         private void Button_Calculate_Click(object sender, RoutedEventArgs e)
         {
+            txt_NumberToConvert.Text=txt_NumberToConvert.Text.ToUpper();
             if (comboBox_BaseSelection.SelectedIndex == -1 || comboBox_BaseToConvertSelection.SelectedIndex == -1)
             {
                 txt_Result.Text = "You need to select both bases";
@@ -117,13 +117,11 @@ namespace Base_Converter
                     {
                         switch (comboBox_BaseSelection.SelectedIndex)
                         {
-                            case 15: //Floating Point
-                                selectedBaseFromComboBox = 'F';
-                                break;
-                            case 16: //BCD
+
+                            case 15: //BCD
                                 selectedBaseFromComboBox = 'B';
                                 break;
-                            case 17: //8 Bit
+                            case 16: //8 Bit
                                 selectedBaseFromComboBox = '8';
                                 break;
                         }
@@ -160,7 +158,7 @@ namespace Base_Converter
                     if ((c >= 48 && c <= 57) || c == '.' || (c >= 65 && c <= 70))
                         userValidString += c;
                 }
-
+                userValidString.ToUpper();
 
                 foreach (char c in userValidString)
                 {
@@ -299,13 +297,6 @@ namespace Base_Converter
         }
 
 
-
-        private void Txt_credit_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            
-        }
-
-
         /// <summary>
         /// Convert any base 10 number to another base from 2 to 16.
         /// </summary>
@@ -418,6 +409,7 @@ namespace Base_Converter
         /// <returns>Will return the floating point as a string</returns>
         private string ToFloatingPoint(string number)
         {
+            
             sTrNumberToBase = "";
             long exponent = 0;
             string Mantisa = "";
@@ -639,6 +631,9 @@ namespace Base_Converter
             return "Type a correct 8 bit number";
 
         }
+
+
+        
 
 
         /// <summary>
